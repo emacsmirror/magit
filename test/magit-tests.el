@@ -538,7 +538,18 @@ Recent commits\n[[:xdigit:]]\\{7,\\} master dummy\\'"
 (provide 'magit-tests)
 ;; Local Variables:
 ;; read-symbol-shorthands: (
+;;   ("and$"         . "cond-let--and$")
+;;   ("thread$"      . "cond-let--thread$")
+;;   ("when$"        . "cond-let--when$")
+;;   ("and-let*"     . "cond-let--and-let*")
+;;   ("and-let"      . "cond-let--and-let")
+;;   ("if-let*"      . "cond-let--if-let*")
+;;   ("if-let"       . "cond-let--if-let")
+;;   ("when-let*"    . "cond-let--when-let*")
+;;   ("when-let"     . "cond-let--when-let")
+;;   ("while-let*"   . "cond-let--while-let*")
+;;   ("while-let"    . "cond-let--while-let")
 ;;   ("match-string" . "match-string")
-;;   ("match-str" . "match-string-no-properties"))
+;;   ("match-str"    . "match-string-no-properties"))
 ;; End:
 ;;; magit-tests.el ends here
