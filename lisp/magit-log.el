@@ -1590,6 +1590,7 @@ exists mostly for backward compatibility reasons."
     (magit-section-forward)))
 
 (add-hook 'magit-section-movement-hook #'magit-log-maybe-show-more-commits)
+(add-hook 'magit-mouse-set-point-hook  #'magit-log-maybe-show-more-commits)
 
 (defvar magit--update-revision-buffer nil)
 
@@ -1601,6 +1602,7 @@ See also info node `(magit)Section Movement'."
     (magit--maybe-update-revision-buffer)))
 
 (add-hook 'magit-section-movement-hook #'magit-log-maybe-update-revision-buffer)
+(add-hook 'magit-mouse-set-point-hook  #'magit-log-maybe-update-revision-buffer)
 
 (defun magit--maybe-update-revision-buffer ()
   (when-let* ((commit (magit-section-value-if 'commit))

@@ -126,6 +126,9 @@ similar defect."
 That function in turn is used by all section movement commands.
 See also info node `(magit)Section Movement'.")
 
+(defvar magit-mouse-set-point-hook nil
+  "Hook run by `magit-mouse-set-point-hook'.")
+
 (defvar magit-section-set-visibility-hook
   (list #'magit-section-cached-visibility)
   "Hook used to set the initial visibility of a section.
@@ -888,10 +891,10 @@ If there is no previous sibling section, then move to the parent."
     ((magit-section-backward))))
 
 (defun magit-mouse-set-point (event &optional promote-to-region)
-  "Like `mouse-set-point' but also call `magit-section-movement-hook'."
+  "Like `mouse-set-point' but also call `magit-mouse-set-point-hook'."
   (interactive "e\np")
   (mouse-set-point event promote-to-region)
-  (run-hook-with-args 'magit-section-movement-hook (magit-current-section)))
+  (run-hook-with-args 'magit-mouse-set-point-hook (magit-current-section)))
 
 (defun magit-section-goto (arg)
   "Run `magit-section-movement-hook'.
