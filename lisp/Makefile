@@ -99,7 +99,7 @@ install: lisp versionlib
 	@$(MKDIR) $(DESTDIR)$(lispdir)
 	$(CP) $(ELS) magit-autoloads.el magit-version.el $(ELCS) $(DESTDIR)$(lispdir)
 
-## Debug
+## Debug #############################################################
 
 emacs-Q: clean
 	@$(MAKE) autoloads
