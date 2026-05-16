@@ -101,7 +101,6 @@ Non-interactively REV can also be a blob object."
                 (rev rev)))
          (topdir (magit-toplevel))
          (file (expand-file-name file topdir))
-         (file-relative (file-relative-name file topdir))
          (buffer
           (cond-let
             ((equal rev "{worktree}")
@@ -118,7 +117,7 @@ Non-interactively REV can also be a blob object."
              (unless (file-in-directory-p file topdir)
                (error "%s is not inside Git repository %s" file topdir))
              (with-current-buffer
-                 (magit--get-blob-buffer rev file-relative volatile)
+                 (magit--get-blob-buffer rev file volatile)
                (if (magit-blob-p rev)
                    (setq magit-buffer-blob-oid--init (magit-rev-parse rev))
                  (setq magit-buffer-revision rev))
@@ -132,7 +131,7 @@ Non-interactively REV can also be a blob object."
                (current-buffer)))
             ((error "Unexpected error")))))
     (when (and (not no-restore-position)
-               (equal (magit-file-relative-name) file-relative))
+               (equal magit-buffer-file-name file))
       (let ((pos (magit-find-file--position)))
         (with-current-buffer buffer
           (apply #'magit-find-file--restore-position pos))))
