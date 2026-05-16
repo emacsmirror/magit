@@ -1132,16 +1132,32 @@ a bare repository."
 (defun magit-tracked-files (&rest args)
   (magit-list-files "--cached" args))
 
-(defun magit-untracked-files (&optional all files &rest args)
-  "Return a list of untracked files."
+(defun magit-untracked-files (&optional include-ignored directory)
+  "Return a list of untracked files.
+If optional INCLUDE-IGNORED is non-nil, include ignored files.
+If optional DIRECTORY is non-nil, then limit to that directory.
+DIRECTORY can also be a list of files and directories."
   (magit-with-toplevel
-    (seq-keep (##and (eq (aref % 0) ??)
+    (seq-keep (##and (memq (aref % 0) '(?? ?!))
                      (substring % 3))
-              (magit-git-items "status" "-z" "--porcelain" args
-                               (if all
-                                   "--untracked-files=all"
-                                 "--untracked-files=normal")
-                               "--" files))))
+              (magit-git-items "status" "-z" "--porcelain"
+                               (and include-ignored "--ignored")
+                               "--untracked-files=all"
+                               "--" directory))))
+
+(defun magit--untracked-directories (&optional include-ignored directory)
+  "Return a list of directories containing only untracked files.
+If optional INCLUDE-IGNORED is non-nil, consider ignored files.
+If optional DIRECTORY is non-nil, then limit to that directory.
+DIRECTORY can also be a list of files and directories."
+  (magit-with-toplevel
+    (seq-keep (##and (memq (aref % 0) '(?? ?!))
+                     (eq (aref % (1- (length %))) ?/)
+                     (substring % 3))
+              (magit-git-items "status" "-z" "--porcelain"
+                               (and include-ignored "--ignored")
+                               "--untracked-files=normal"
+                               "--" directory))))
 
 (defun magit-list-untracked-files (&optional files)
   "Return a list of untracked files.
